@@ -96,7 +96,7 @@ install_tcp(){
 }
 
 install_caddy(){
-    wget -N --no-check-certificate https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/caddy_install.sh && chmod +x caddy_install.sh && bash caddy_install.sh install http.filemanager
+    wget -N --no-check-certificate https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/caddy_install.sh && chmod +x caddy_install.sh && bash caddy_install.sh install http.filebrowser
 }
 
 install_nms(){
