@@ -92,7 +92,7 @@ install_v2(){
 }
 
 install_tcp(){
-    bash <(curl -L -s https://raw.githubusercontent.com/KutouAkira/MSR/master/tcp.shh)
+    bash <(curl -L -s https://raw.githubusercontent.com/KutouAkira/MSR/master/tcp.sh)
 }
 
 install_caddy(){
