@@ -92,11 +92,11 @@ install_v2(){
 }
 
 install_tcp(){
-    bash <(curl -L -s https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/tcp.sh)
+    bash <(curl -L -s https://raw.githubusercontent.com/KutouAkira/MSR/master/tcp.shh)
 }
 
 install_caddy(){
-    wget -N --no-check-certificate https://raw.githubusercontent.com/KutouAkira/MSR/master/tcp.sh && chmod +x caddy_install.sh && bash caddy_install.sh install http.filemanager
+    wget -N --no-check-certificate https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/caddy_install.sh && chmod +x caddy_install.sh && bash caddy_install.sh install http.filemanager
     stty erase '^H' && read -p "请输入您的域名:" address
     stty erase '^H' && read -p "请输入您的邮箱:" email
     mkdir /etc/caddy
