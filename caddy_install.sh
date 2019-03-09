@@ -113,7 +113,7 @@ install_caddy(){
 	fi
 	Download_caddy
 	Service_caddy
-	write_caddyfile()
+	write_caddyfile
 	echo && echo -e " Caddy 使用命令：${caddy_conf_file}
  日志文件：cat /tmp/caddy.log
  使用说明：service caddy start | stop | restart | status
