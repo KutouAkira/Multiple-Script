@@ -78,6 +78,22 @@ Service_caddy(){
 		update-rc.d -f caddy defaults
 	fi
 }
+write_caddyfile(){
+	stty erase '^H' && read -p "请输入您的域名:" address
+    	stty erase '^H' && read -p "请输入您的邮箱:" email
+   	mkdir /etc/caddy
+  	mkdir /etc/caddy/www
+ 	touch /etc/caddy/Caddyfile
+	echo "${address}:443 {
+            root /etc/caddy/www
+            timeouts none
+            tls ${email}
+            gzip
+            filemanager /file / {
+            database /etc/caddy/filemanager.db
+            }
+        }" >> /etc/caddy/Caddyfile
+}
 install_caddy(){
 	check_root
 	if [[ -e ${caddy_file} ]]; then
@@ -90,6 +106,7 @@ install_caddy(){
 	fi
 	Download_caddy
 	Service_caddy
+	write_caddyfile
 	echo && echo -e " Caddy 使用命令：${caddy_conf_file}
  日志文件：cat /tmp/caddy.log
  使用说明：service caddy start | stop | restart | status
