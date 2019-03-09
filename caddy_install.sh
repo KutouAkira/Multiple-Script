@@ -4,9 +4,8 @@ export PATH
 #=================================================
 #       System Required: CentOS/Debian/Ubuntu
 #       Description: Caddy Install
-#       Version: 1.0.8
-#       Author: Toyo
-#       Blog: https://doub.io/shell-jc1/
+#       Version: 1.0.0
+#       Author: Akira
 #=================================================
 file="/usr/local/caddy/"
 caddy_file="/usr/local/caddy/caddy"
@@ -85,6 +84,20 @@ Service_caddy(){
 		update-rc.d -f caddy defaults
 	fi
 }
+write_caddyfile(){
+	stty erase '^H' && read -p "请输入您的域名:" address
+    	stty erase '^H' && read -p "请输入您的邮箱:" email
+   	mkdir /etc/caddy
+  	mkdir /etc/caddy/www
+ 	touch /etc/caddy/Caddyfile
+	echo "${address}:443 {
+            root /etc/caddy/www
+            timeouts none
+            tls ${email}
+            gzip
+            filebrowser
+        }" >> /etc/caddy/Caddyfile
+}
 install_caddy(){
 	check_root
 	if [[ -e ${caddy_file} ]]; then
@@ -97,6 +110,7 @@ install_caddy(){
 	fi
 	Download_caddy
 	Service_caddy
+	write_caddyfile
 	echo && echo -e " Caddy 使用命令：${caddy_conf_file}
  日志文件：cat /tmp/caddy.log
  使用说明：service caddy start | stop | restart | status
