@@ -121,8 +121,8 @@ install_nms(){
 install_ff(){
     if [[ "${release}" == "centos" ]]; then 
         yum update -y
-        wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz
-        tar -xvJf ffmpeg-release-64bit-static.tar.xz
+        wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+        tar -xvJf ffmpeg-release-amd64-static.tar.xz
         cd ffmpeg*
         cp -f ff* /usr/bin
     else
