@@ -4,8 +4,9 @@ export PATH
 #=================================================
 #       System Required: CentOS/Debian/Ubuntu
 #       Description: Caddy Install
-#       Version: 1.0.0
-#       Author: Akira
+#       Version: 1.0.8
+#       Author: Toyo
+#       Blog: https://doub.io/shell-jc1/
 #=================================================
 file="/usr/local/caddy/"
 caddy_file="/usr/local/caddy/caddy"
@@ -43,12 +44,18 @@ Download_caddy(){
 	[[ ! -z ${PID} ]] && kill -9 ${PID}
 	[[ -e "caddy_linux*.tar.gz" ]] && rm -rf "caddy_linux*.tar.gz"
 	
+	if [[ ! -z ${extension} ]]; then
+		extension_all="?plugins=${extension}&license=personal"
+	else
+		extension_all="?license=personal"
+	fi
+	
 	if [[ ${bit} == "x86_64" ]]; then
-		wget --no-check-certificate -O "caddy_linux.tar.gz" 'https://caddyserver.com/download/linux/amd64?plugins=http.filebrowser&license=personal&telemetry=on'
+		wget --no-check-certificate -O "caddy_linux.tar.gz" "https://caddyserver.com/download/linux/amd64${extension_all}"
 	elif [[ ${bit} == "i386" || ${bit} == "i686" ]]; then
-		wget --no-check-certificate -O "caddy_linux.tar.gz" 'https://caddyserver.com/download/linux/386?plugins=http.filebrowser&license=personal&telemetry=on'
+		wget --no-check-certificate -O "caddy_linux.tar.gz" "https://caddyserver.com/download/linux/386${extension_all}"
 	elif [[ ${bit} == "armv7l" ]]; then
-		wget --no-check-certificate -O "caddy_linux.tar.gz" 'https://caddyserver.com/download/linux/arm7?plugins=http.filebrowser&license=personal&telemetry=on'
+		wget --no-check-certificate -O "caddy_linux.tar.gz" "https://caddyserver.com/download/linux/arm7${extension_all}"
 	else
 		echo -e "${Error_font_prefix}[错误]${Font_suffix} 不支持 [${bit}] ! 请向本站反馈[]中的名称，我会看看是否可以添加支持。" && exit 1
 	fi
@@ -78,22 +85,6 @@ Service_caddy(){
 		update-rc.d -f caddy defaults
 	fi
 }
-write_caddyfile(){
-	stty erase '^H' && read -p "请输入您的域名:" address
-    	stty erase '^H' && read -p "请输入您的邮箱:" email
-   	mkdir /etc/caddy
-  	mkdir /etc/caddy/www
- 	touch /etc/caddy/Caddyfile
-	echo "${address}:443 {
-            root /etc/caddy/www
-            timeouts none
-            tls ${email}
-            gzip
-            filemanager /file / {
-            database /etc/caddy/filemanager.db
-            }
-        }" >> /etc/caddy/Caddyfile
-}
 install_caddy(){
 	check_root
 	if [[ -e ${caddy_file} ]]; then
@@ -106,7 +97,6 @@ install_caddy(){
 	fi
 	Download_caddy
 	Service_caddy
-	write_caddyfile
 	echo && echo -e " Caddy 使用命令：${caddy_conf_file}
  日志文件：cat /tmp/caddy.log
  使用说明：service caddy start | stop | restart | status
