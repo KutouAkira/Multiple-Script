@@ -45,7 +45,7 @@ Download_caddy(){
 	[[ -e "caddy_linux*.tar.gz" ]] && rm -rf "caddy_linux*.tar.gz"
 	
 	if [[ ! -z ${extension} ]]; then
-		extension_all="?plugins=${extension}&license=personal"
+		extension_all="?plugins=${extension}&license=personal&telemetry=on"
 	else
 		extension_all="?license=personal"
 	fi
