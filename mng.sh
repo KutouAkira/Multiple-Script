@@ -97,9 +97,6 @@ info_caddy(){
 stop_caddy(){
     /etc/init.d/caddy stop
 }
-    systemctl stop nginx
-    systemctl status nginx | grep "Active"
-}
 
 test_vps(){
     wget https://raw.githubusercontent.com/chiakge/Linux-Server-Bench-Test/master/linuxtest.sh -N --no-check-certificate && bash linuxtest.sh
