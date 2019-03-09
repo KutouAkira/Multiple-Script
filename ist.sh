@@ -97,20 +97,6 @@ install_tcp(){
 
 install_caddy(){
     wget -N --no-check-certificate https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/caddy_install.sh && chmod +x caddy_install.sh && bash caddy_install.sh install http.filemanager
-    stty erase '^H' && read -p "请输入您的域名:" address
-    stty erase '^H' && read -p "请输入您的邮箱:" email
-    mkdir /etc/caddy
-    mkdir /etc/caddy/www
-    touch /etc/caddy/Caddyfile
-    echo "${address}:443 {
-            root /etc/caddy/www
-            timeouts none
-            tls ${email}
-            gzip
-            filemanager /file / {
-            database /etc/caddy/filemanager.db
-            }
-        }" >> /etc/caddy/Caddyfile
 }
 
 install_nms(){
