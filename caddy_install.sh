@@ -85,40 +85,51 @@ Service_caddy(){
 	fi
 }
 write_caddyfile(){
-	read -p "是否要使用ws?[y/N]:" ans
-	if [[ ${ans} = "y" ]] || [[ ${ans} = "Y"]]; then
-		read -p "请输入您的域名:" address
-    		read -p "请输入您的邮箱:" email
-		read -p "请输入您的v2ray端口:" port
-		read -p "请输入您的分流路径:" path
-   		mkdir /etc/caddy
-  		mkdir /etc/caddy/www
- 		touch /etc/caddy/Caddyfile
-		echo "${address} {
-            		root /etc/caddy/www
-            		timeouts none
-            		tls ${email}
-            		gzip
-            		filebrowser
-	    		proxy /${path} 127.0.0.1:${port} {
-        			without /${path}
-        			websocket
-    	    		}
-        		}" >> /etc/caddy/Caddyfile
-	else
-		read -p "请输入您的域名:" address
-    		read -p "请输入您的邮箱:" email
-   		mkdir /etc/caddy
-  		mkdir /etc/caddy/www
- 		touch /etc/caddy/Caddyfile
-		echo "${address} {
-            		root /etc/caddy/www
-            		timeouts none
-            		tls ${email}
-            		gzip
-            		filebrowser
-        		}" >> /etc/caddy/Caddyfile
-	fi
+	while :; do
+
+		read -p "$(echo -e "(是否配置 WSS: [${magenta}Y/N$none]):") " ans
+		if [[ -z "$ans" ]]; then
+			error
+		else
+			if [[ "$ans" == [Yy] ]]; then
+				read -p "请输入您的域名:" address
+				read -p "请输入您的邮箱:" email
+				read -p "请输入您的v2ray端口:" port
+				read -p "请输入您的分流路径:" path
+				mkdir /etc/caddy
+				mkdir /etc/caddy/www
+				touch /etc/caddy/Caddyfile
+				echo "${address} {
+				    root /etc/caddy/www
+				    timeouts none
+				    tls ${email}
+				    gzip
+				    filebrowser
+				    proxy /${path} 127.0.0.1:${port} {
+				        without /${path}
+					websocket
+					}
+				}" >> /etc/caddy/Caddyfile
+				break
+			elif [[ "$auto_install_caddy" == [Nn] ]]; then
+				read -p "请输入您的域名:" address
+				read -p "请输入您的邮箱:" email
+				mkdir /etc/caddy
+				mkdir /etc/caddy/www
+				touch /etc/caddy/Caddyfile
+				echo "${address} {
+				    root /etc/caddy/www
+				    timeouts none
+				    tls ${email}
+				    gzip
+				    filebrowser
+				}" >> /etc/caddy/Caddyfile
+				break
+			else
+				error
+			fi
+		fi
+	done
 }
 install_caddy(){
 	check_root
