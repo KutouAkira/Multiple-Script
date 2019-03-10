@@ -85,17 +85,23 @@ Service_caddy(){
 	fi
 }
 write_caddyfile(){
-	stty erase '^H' && read -p "请输入您的域名:" address
-    	stty erase '^H' && read -p "请输入您的邮箱:" email
+	read -p "请输入您的域名:" address
+    	read -p "请输入您的邮箱:" email
+	read -p "请输入您的v2ray端口:" port
+	read -p "请输入您的分流路径:" path
    	mkdir /etc/caddy
   	mkdir /etc/caddy/www
  	touch /etc/caddy/Caddyfile
-	echo "${address}:443 {
+	echo "${address} {
             root /etc/caddy/www
             timeouts none
             tls ${email}
             gzip
             filebrowser
+	    proxy /${path} 127.0.0.1:${port} {
+        	without /${path}
+        	websocket
+    	    }
         }" >> /etc/caddy/Caddyfile
 }
 install_caddy(){
