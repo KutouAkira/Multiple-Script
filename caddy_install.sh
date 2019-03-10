@@ -86,7 +86,7 @@ Service_caddy(){
 }
 write_caddyfile(){
 	read -p "是否要使用ws?[y/N]:" ans
-	if [[ ${ans} = "y" ] || [ ${ans} = "Y"] ]; then
+	if [[ ${ans} = "y" ]] || [[ ${ans} = "Y"]]; then
 		read -p "请输入您的域名:" address
     		read -p "请输入您的邮箱:" email
 		read -p "请输入您的v2ray端口:" port
