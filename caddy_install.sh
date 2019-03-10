@@ -87,7 +87,7 @@ Service_caddy(){
 write_caddyfile(){
 	while :; do
 
-		read -p "$(echo -e "(是否配置 WSS: [${magenta}Y/N$none]):") " ans
+		read -p "$(echo -e "(是否配置 WS: [${magenta}Y/N$none]):") " ans
 		if [[ -z "$ans" ]]; then
 			error
 		else
