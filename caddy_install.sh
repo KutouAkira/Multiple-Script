@@ -100,16 +100,16 @@ write_caddyfile(){
 				mkdir /etc/caddy/www
 				touch /etc/caddy/Caddyfile
 				echo "${address} {
-				    root /etc/caddy/www
-				    timeouts none
-				    tls ${email}
-				    gzip
-				    filebrowser
-				    proxy /${path} 127.0.0.1:${port} {
-				        without /${path}
-					websocket
-					}
-				}" >> /etc/caddy/Caddyfile
+	root /etc/caddy/www
+	timeouts none
+	tls ${email}
+	gzip
+	filebrowser
+	proxy /${path} 127.0.0.1:${port} {
+		without /${path}
+		websocket
+	}
+}" >> /etc/caddy/Caddyfile
 				break
 			elif [[ "$auto_install_caddy" == [Nn] ]]; then
 				read -p "请输入您的域名:" address
@@ -118,12 +118,12 @@ write_caddyfile(){
 				mkdir /etc/caddy/www
 				touch /etc/caddy/Caddyfile
 				echo "${address} {
-				    root /etc/caddy/www
-				    timeouts none
-				    tls ${email}
-				    gzip
-				    filebrowser
-				}" >> /etc/caddy/Caddyfile
+	root /etc/caddy/www
+	timeouts none
+	tls ${email}
+	gzip
+	filebrowser
+}" >> /etc/caddy/Caddyfile
 				break
 			else
 				error
