@@ -10,11 +10,11 @@ yum install -y wget
 ```
 # Install:
 ```
-wget https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/ist.sh && chmod +x ist.sh && bash ist.sh --no-check-certificate
+wget --no-check-certificate https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/ist.sh && chmod +x ist.sh && bash ist.sh
 ```
 # Manage:
 ```
-wget https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/mng.sh && chmod +x mng.sh && bash mng.sh --no-check-certificate
+wget --no-check-certificate https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/mng.sh && chmod +x mng.sh && bash mng.sh
 ```
 # Include:
 
