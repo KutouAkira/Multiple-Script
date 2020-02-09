@@ -92,7 +92,7 @@ install_v2(){
 }
 
 install_tcp(){
-    wget -N "https://github.000060000.xyz/tcp.sh" && chmod +x tcp.sh && ./tcp.sh
+    wget -N --no-check-certificate "https://github.000060000.xyz/tcp.sh" && chmod +x tcp.sh && ./tcp.sh
 }
 
 install_caddy(){
