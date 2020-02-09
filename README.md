@@ -20,7 +20,7 @@ wget --no-check-certificate https://raw.githubusercontent.com/KutouAkira/Multipl
 
    [233boy/v2ray](https://github.com/233boy/v2ray)
     
-   [chiakge/Linux-NetSpeed](https://github.com/chiakge/Linux-NetSpeed)
+   [ylx2016/Linux-NetSpeed](https://github.com/ylx2016/Linux-NetSpeed)
 
    [mholt/caddy](https://github.com/mholt/caddy)
 
