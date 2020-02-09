@@ -92,7 +92,7 @@ install_v2(){
 }
 
 install_tcp(){
-    bash <(curl -L -s https://raw.githubusercontent.com/chiakge/Linux-NetSpeed/master/tcp.sh)
+    wget -N "https://github.000060000.xyz/tcp.sh" && chmod +x tcp.sh && ./tcp.sh
 }
 
 install_caddy(){
