@@ -22,7 +22,7 @@ wget --no-check-certificate https://raw.githubusercontent.com/KutouAkira/Multipl
     
    [ylx2016/Linux-NetSpeed](https://github.com/ylx2016/Linux-NetSpeed)
 
-   [mholt/caddy](https://github.com/mholt/caddy)
+   [caddyserver/caddy](https://github.com/caddyserver/caddy)
 
    [illuspas/Node-Media-Server](https://github.com/illuspas/Node-Media-Server)
    
