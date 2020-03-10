@@ -18,7 +18,7 @@ echo && echo -e " Akira Installation Script
  ${Green_font_prefix}8.${Font_color_suffix} 运行VPS测试
  ${Green_font_prefix}9.${Font_color_suffix} 退出脚本
 " 
-read -p " 请输入数字 [1-8]:" num
+read -p " 请输入数字 [1-9]:" num
 case "$num" in
 	1)
 	install_v2
@@ -66,7 +66,7 @@ case "$num" in
 	;;
 	*)
 	clear
-	echo -e "请输入正确数字 [0-10]"
+	echo -e "请输入正确数字 [1-9]"
 	sleep 3s
 	start_menu
 	;;
@@ -104,6 +104,8 @@ install_tcp(){
 }
 
 install_caddy(){
+    echo -e "请确保ip已经解析正确且未开启CDN"
+    read -p "按Enter继续"
     curl https://getcaddy.com | bash -s personal
     curl -s https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/caddy.service -o /etc/systemd/system/caddy.service
     systemctl daemon-reload
