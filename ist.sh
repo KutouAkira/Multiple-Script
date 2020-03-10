@@ -7,7 +7,7 @@ check_root(){
 start_menu(){
 clear
 echo && echo -e " Akira Installation Script 
- ————————————— 安装模块 —————————————
+ ————————————————————————————
  ${Green_font_prefix}1.${Font_color_suffix} 安装 v2ray
  ${Green_font_prefix}2.${Font_color_suffix} 安装 TCP加速
  ${Green_font_prefix}3.${Font_color_suffix} 安装 caddy
