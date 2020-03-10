@@ -7,15 +7,16 @@ check_root(){
 start_menu(){
 clear
 echo && echo -e " Akira Installation Script 
- ————————————————————————————
+ —————————————————————————
  ${Green_font_prefix}1.${Font_color_suffix} 安装 v2ray
  ${Green_font_prefix}2.${Font_color_suffix} 安装 TCP加速
  ${Green_font_prefix}3.${Font_color_suffix} 安装 caddy
- ${Green_font_prefix}4.${Font_color_suffix} 安装 Node Media Server
- ${Green_font_prefix}5.${Font_color_suffix} 安装 ffmpeg
- ${Green_font_prefix}6.${Font_color_suffix} 安装 宝塔面板
- ${Green_font_prefix}7.${Font_color_suffix} 运行VPS测试
- ${Green_font_prefix}8.${Font_color_suffix} 退出脚本
+ ${Green_font_prefix}4.${Font_color_suffix} 安装 filebroswer
+ ${Green_font_prefix}5.${Font_color_suffix} 安装 Node Media Server
+ ${Green_font_prefix}6.${Font_color_suffix} 安装 ffmpeg
+ ${Green_font_prefix}7.${Font_color_suffix} 安装 宝塔面板
+ ${Green_font_prefix}8.${Font_color_suffix} 运行VPS测试
+ ${Green_font_prefix}9.${Font_color_suffix} 退出脚本
 " 
 read -p " 请输入数字 [1-8]:" num
 case "$num" in
@@ -34,27 +35,32 @@ case "$num" in
     read -p "按Enter继续"
     start_menu
 	;;
-	4)
-	install_nms
+    4)
+	install_fb
     read -p "按Enter继续"
     start_menu
 	;;
 	5)
-	install_ff
+	install_nms
     read -p "按Enter继续"
     start_menu
 	;;
 	6)
-	install_bt
+	install_ff
     read -p "按Enter继续"
     start_menu
 	;;
 	7)
+	install_bt
+    read -p "按Enter继续"
+    start_menu
+	;;
+	8)
     test_vps
     read -p "结果已保存至/root/test.log,按Enter继续"
 	exit 1
 	;;
-	8)
+	9)
     clear
 	exit 1
 	;;
@@ -116,15 +122,15 @@ install_caddy(){
 				mkdir /etc/caddy/www
 				touch /etc/caddy/Caddyfile
 				echo "${address} {
-					root /etc/caddy/www
-					timeouts none
-					tls ${email}
-					gzip
-					proxy /${path} 127.0.0.1:${port} {
-						without /${path}
-						websocket
-					}
-				}" >> /etc/caddy/Caddyfile
+	root /etc/caddy/www
+	timeouts none
+	tls ${email}
+	gzip
+	proxy /${path} 127.0.0.1:${port} {
+		without /${path}
+		websocket
+	}
+}" >> /etc/caddy/Caddyfile
 				break
 			elif [[ "$ans" == [Nn] ]]; then
 				read -p "请输入您的域名:" address
@@ -133,11 +139,11 @@ install_caddy(){
 				mkdir /etc/caddy/www
 				touch /etc/caddy/Caddyfile
 				echo "${address} {
-					root /etc/caddy/www
-					timeouts none
-					tls ${email}
-					gzip
-				}" >> /etc/caddy/Caddyfile
+	root /etc/caddy/www
+	timeouts none
+	tls ${email}
+	gzip
+}" >> /etc/caddy/Caddyfile
 				break
 			else
 				echo -e "非法输入"
@@ -145,6 +151,31 @@ install_caddy(){
 		fi
 	done
     systemctl start caddy.service
+}
+
+install_fb(){
+    curl -fsSL https://filebrowser.xyz/get.sh | bash
+    filebrowser config init
+    while :; do
+		read -p "$(echo -e "(是否配置caddy: [Y/N]):") " ans
+		if [[ -z "$ans" ]]; then
+			echo -e "非法输入"
+		else
+			if [[ "$ans" == [Yy] ]]; then
+				read -p "请输入您的二级路径(无需加'/'):" address
+                filebrowser config set --baseurl ${address}
+                echo -e "请将下列内容复制到Caddyfile对应域名配置内:"
+                echo -e "proxy /${address} 127.0.0.1:8080 {
+    without /${address}
+}"
+				break
+			elif [[ "$ans" == [Nn] ]]; then
+				break
+			else
+				echo -e "非法输入"
+			fi
+		fi
+	done
 }
 
 install_nms(){
