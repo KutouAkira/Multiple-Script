@@ -156,6 +156,7 @@ install_caddy(){
 install_fb(){
     curl -fsSL https://filebrowser.xyz/get.sh | bash
     filebrowser config init
+    read -p "$(echo -e "(请输入filebroswer监听端口(默认8080)):") " port
     while :; do
 		read -p "$(echo -e "(是否配置caddy: [Y/N]):") " ans
 		if [[ -z "$ans" ]]; then
