@@ -12,6 +12,10 @@ caddy_file="/usr/local/caddy/caddy"
 caddy_conf_file="/usr/local/caddy/Caddyfile"
 Info_font_prefix="\033[32m" && Error_font_prefix="\033[31m" && Info_background_prefix="\033[42;37m" && Error_background_prefix="\033[41;37m" && Font_suffix="\033[0m"
 
+error () {
+	echo -e "非法输入"
+}
+
 check_root(){
 	[[ $EUID != 0 ]] && echo -e "${Error} 当前非ROOT账号(或没有ROOT权限)，无法继续操作，请更换ROOT账号或使用 ${Green_background_prefix}sudo su${Font_color_suffix} 命令获取临时ROOT权限（执行后可能会提示输入当前账号的密码）。" && exit 1
 }
@@ -80,10 +84,9 @@ Service_caddy(){
 }
 write_caddyfile(){
 	while :; do
-
-		read -p "$(echo -e "(是否配置 WS: [${magenta}Y/N$none]):") " ans
+		read -p "$(echo -e "(是否配置 WS: [Y/N]):") " ans
 		if [[ -z "$ans" ]]; then
-			error
+			echo -e "非法输入"
 		else
 			if [[ "$ans" == [Yy] ]]; then
 				read -p "请输入您的域名:" address
@@ -94,33 +97,31 @@ write_caddyfile(){
 				mkdir /etc/caddy/www
 				touch /etc/caddy/Caddyfile
 				echo "${address} {
-	root /etc/caddy/www
-	timeouts none
-	tls ${email}
-	gzip
-	filebrowser
-	proxy /${path} 127.0.0.1:${port} {
-		without /${path}
-		websocket
-	}
-}" >> /etc/caddy/Caddyfile
+					root /etc/caddy/www
+					timeouts none
+					tls ${email}
+					gzip
+					proxy /${path} 127.0.0.1:${port} {
+						without /${path}
+						websocket
+					}
+				}" >> /etc/caddy/Caddyfile
 				break
-			elif [[ "$auto_install_caddy" == [Nn] ]]; then
+			elif [[ "$ans" == [Nn] ]]; then
 				read -p "请输入您的域名:" address
 				read -p "请输入您的邮箱:" email
 				mkdir /etc/caddy
 				mkdir /etc/caddy/www
 				touch /etc/caddy/Caddyfile
 				echo "${address} {
-	root /etc/caddy/www
-	timeouts none
-	tls ${email}
-	gzip
-	filebrowser
-}" >> /etc/caddy/Caddyfile
+					root /etc/caddy/www
+					timeouts none
+					tls ${email}
+					gzip
+				}" >> /etc/caddy/Caddyfile
 				break
 			else
-				error
+				echo -e "非法输入"
 			fi
 		fi
 	done

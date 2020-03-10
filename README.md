@@ -1,20 +1,16 @@
 # Multiple-Script
-# Notice: Please install wget first!!!
+# Notice: Please install wget and curl first!!!
 For Ubuntu/Debian:
 ```
-apt-get install -y wget
+apt-get install -y wget curl
 ```
 For CentOS:
 ```
-yum install -y wget
+yum install -y wget curl
 ```
 # Install:
 ```
 wget --no-check-certificate https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/ist.sh && chmod +x ist.sh && bash ist.sh
-```
-# Manage:
-```
-wget --no-check-certificate https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/mng.sh && chmod +x mng.sh && bash mng.sh
 ```
 # Include:
 

@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
-
+check_root(){
+	[[ $EUID != 0 ]] && echo -e "${Error} 当前非ROOT账号(或没有ROOT权限)，无法继续操作，请更换ROOT账号或使用 ${Green_background_prefix}sudo su${Font_color_suffix} 命令获取临时ROOT权限（执行后可能会提示输入当前账号的密码）。" && exit 1
+}
 start_menu(){
 clear
 echo && echo -e " Akira Installation Script 
@@ -96,7 +98,53 @@ install_tcp(){
 }
 
 install_caddy(){
-    wget -N --no-check-certificate https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/caddy_install.sh && chmod +x caddy_install.sh && bash caddy_install.sh install http.filebrowser
+    curl https://getcaddy.com | bash -s personal
+    curl -s https://raw.githubusercontent.com/KutouAkira/Multiple-Script/master/caddy.service -o /etc/systemd/system/caddy.service
+    systemctl daemon-reload
+    systemctl enable caddy.service
+    while :; do
+		read -p "$(echo -e "(是否配置 WS: [Y/N]):") " ans
+		if [[ -z "$ans" ]]; then
+			echo -e "非法输入"
+		else
+			if [[ "$ans" == [Yy] ]]; then
+				read -p "请输入您的域名:" address
+				read -p "请输入您的邮箱:" email
+				read -p "请输入您的v2ray端口:" port
+				read -p "请输入您的分流路径:" path
+				mkdir /etc/caddy
+				mkdir /etc/caddy/www
+				touch /etc/caddy/Caddyfile
+				echo "${address} {
+					root /etc/caddy/www
+					timeouts none
+					tls ${email}
+					gzip
+					proxy /${path} 127.0.0.1:${port} {
+						without /${path}
+						websocket
+					}
+				}" >> /etc/caddy/Caddyfile
+				break
+			elif [[ "$ans" == [Nn] ]]; then
+				read -p "请输入您的域名:" address
+				read -p "请输入您的邮箱:" email
+				mkdir /etc/caddy
+				mkdir /etc/caddy/www
+				touch /etc/caddy/Caddyfile
+				echo "${address} {
+					root /etc/caddy/www
+					timeouts none
+					tls ${email}
+					gzip
+				}" >> /etc/caddy/Caddyfile
+				break
+			else
+				echo -e "非法输入"
+			fi
+		fi
+	done
+    systemctl start caddy.service
 }
 
 install_nms(){
@@ -144,5 +192,6 @@ test_vps(){
     wget https://raw.githubusercontent.com/chiakge/Linux-Server-Bench-Test/master/linuxtest.sh -N --no-check-certificate && bash linuxtest.sh
 }
 
+check_root
 check_sys
 start_menu
